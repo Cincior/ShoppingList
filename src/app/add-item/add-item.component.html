@@ -1,12 +1,21 @@
-<div class="flex-1 px-6">
+<div class="flex-[1] px-6 w-full">
     <h2 class="text-2xl font-bold text-center mb-4">Dodaj produkt do listy</h2>
   
     <form [formGroup]="addItemForm" (submit)="addItem()" class="space-y-2">
         <div class="flex flex-col">
-            <label for="item-name" class="text-gray-700 font-semibold mb-1">Nazwa Produktu:</label>
-            <input id="item-name" type="text" formControlName="itemName"
-                class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400">
+            <label for="item-name" class="text-gray-700 font-semibold mb-1">Podaj produkt:</label>
+            
+            <div class="flex w-full gap-2">
+                <input id="item-name" type="text" formControlName="itemName"
+                    class="flex-[7] p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    [ngClass]="{'bg-red-500': submitted && addItemForm.get('itemName')?.errors}">
+                
+                <input id="item-quantity" type="number" formControlName="itemQuantity"
+                    class="flex-[1] flex w-12 border border-gray-300 text-center rounded focus:outline-none focus:ring-2 focus:ring-orange-400"> 
+            </div>
         </div>
+        <button type="submit"
+        class="bg-transparent hover:bg-orange-400 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-orange-400 hover:border-transparent rounded hover:cursor-pointer">Zapisz</button>
 
     </form>
   </div>
