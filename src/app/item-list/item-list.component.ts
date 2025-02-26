@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ItemsService } from '../../items.service';
 
 @Component({
   selector: 'app-item-list',
@@ -7,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrl: './item-list.component.css'
 })
 export class ItemListComponent {
+  private itemsService = inject(ItemsService);
 
+  receivedData: {itemName: string; itemQuantity: number} | null = null;
+
+  ngOnInit() {
+    this.itemsService.dataChanged.subscribe(data => {
+      this.receivedData = data;
+    });
+  }
 }

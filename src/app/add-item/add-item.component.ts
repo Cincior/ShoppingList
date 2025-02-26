@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms'
+import { ItemsService } from '../../items.service';
 
 @Component({
   selector: 'app-add-item',
@@ -10,6 +11,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 })
 export class AddItemComponent {
   submitted: boolean;
+  private itemService = inject(ItemsService)
 
   addItemForm = new FormGroup({
     itemName: new FormControl('', Validators.required),
@@ -25,7 +27,10 @@ export class AddItemComponent {
       return;
     }
     console.log(this.addItemForm.value.itemName + " " + this.addItemForm.value.itemQuantity);
-  
+
+    //send data
+    this.itemService.addItem(this.addItemForm.value.itemName ?? '', this.addItemForm.value.itemQuantity ?? -1);
+
     this.addItemForm.reset({
       itemName: '',
       itemQuantity: 0,
