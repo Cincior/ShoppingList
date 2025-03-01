@@ -1,2 +1,4 @@
-<p>i: </p>
-<div>{{receivedData?.itemName}}, {{receivedData?.itemQuantity}}</div>
+<h2 class="text-center text-4xl font-bold">Lista</h2>
+<div *ngFor="let item of receivedData">
+    <app-item [item]="item"></app-item>
+</div>

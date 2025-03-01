@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms'
 import { ItemsService } from '../../items.service';
+import { Item } from '../Item';
 
 @Component({
   selector: 'app-add-item',
@@ -29,7 +30,11 @@ export class AddItemComponent {
     console.log(this.addItemForm.value.itemName + " " + this.addItemForm.value.itemQuantity);
 
     //send data
-    this.itemService.addItem(this.addItemForm.value.itemName ?? '', this.addItemForm.value.itemQuantity ?? -1);
+    let item: Item = {
+      itemName: this.addItemForm.value.itemName ?? '',
+      itemQuantity: this.addItemForm.value.itemQuantity ?? -1 
+      }
+    this.itemService.addItem(item);
 
     this.addItemForm.reset({
       itemName: '',

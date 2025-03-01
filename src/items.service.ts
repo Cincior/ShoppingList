@@ -1,13 +1,15 @@
 import { EventEmitter, Injectable } from "@angular/core";
-
+import { Item } from "./app/Item";
+import { Subject } from "rxjs";
 
 @Injectable({
     providedIn: 'root',
 })
 export class ItemsService {
-    dataChanged = new EventEmitter<{itemName: string; itemQuantity: number}>();
+    private dataSubject = new Subject<Item>
+    data$ = this.dataSubject.asObservable();
 
-    addItem(itemName: string, itemQuantity: number) {
-        this.dataChanged.emit({itemName, itemQuantity});
+    addItem(item: Item) {
+        this.dataSubject.next(item);
     }
 }
