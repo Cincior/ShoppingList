@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms'
 import { ItemsService } from '../../items.service';
 import { Item } from '../Item';
+import { ServerService } from '../server.service';
 
 @Component({
   selector: 'app-add-item',
@@ -12,14 +13,32 @@ import { Item } from '../Item';
 })
 export class AddItemComponent {
   submitted: boolean;
-  private itemService = inject(ItemsService)
+  private itemService = inject(ItemsService);
+  fetchedProduct: Item[] = [];
 
   addItemForm = new FormGroup({
     itemName: new FormControl('', Validators.required),
     itemQuantity: new FormControl(0, [Validators.required, Validators.min(1)]),
   });
-  constructor() {
+  constructor(private serverService: ServerService) {
     this.submitted = false;
+
+  }
+
+  fetchProducts() {
+    this.serverService.getProducts().subscribe({
+      next: (response) => {
+        console.log(response);
+        this.fetchedProduct = response.map(el => ({
+          itemName: el.name,
+          itemQuantity: el.quantity
+        }) as Item)
+      },
+      error: (error) => {
+        console.error('Błąd:', error);
+      },
+      complete: () => {}
+    });
   }
 
   addItem() {
