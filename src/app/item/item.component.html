@@ -1,5 +1,22 @@
 <div class="border-2 rounded-2xl border-orange-300 m-4 p-2 flex items-center space-x-0.5">
-    <h1 class="text-3xl grow">{{item.itemName}} {{item.itemQuantity}}</h1>
-    <button class="bg-red-400 rounded p-2 hover:cursor-pointer hover:bg-red-300" onclick="console.log('del')">del</button>
-    <button class="bg-blue-400 rounded p-2 hover:cursor-pointer hover:bg-blue-300" onclick="console.log('update')">update</button>
+    <ng-container *ngIf="!isEditing; else editBlock" class="space-x-3">
+        <div class="flex space-x-3 grow">
+            <h1 class="text-3xl">{{item.itemName}}</h1>
+            <h1 class="text-3xl grow">{{item.itemQuantity}}</h1>
+        </div>
+        
+    </ng-container>
+
+    <ng-template #editBlock>
+        <div class="flex text-3xl grow space-x-1">
+            <input [ngStyle]="{'width': item.itemName.length + 'ch'}" #itemNameInput
+                type="text" [value]="item.itemName">
+            <input #itemQuantityInput [style.width.ch]="item.itemQuantity.toString().length + 1"
+                type="number" [value]="item.itemQuantity">
+        </div>
+    </ng-template>
+
+    <button class="w-20 bg-red-400 rounded p-2 hover:cursor-pointer hover:bg-red-300" (click)="deleteItem()">delete</button>
+    <button *ngIf="!isEditing" class="w-20 bg-blue-400 rounded p-2 hover:cursor-pointer hover:bg-blue-300" (click)="updateItem()">update</button>
+    <button *ngIf="isEditing" class="w-20 bg-green-400 rounded p-2 hover:cursor-pointer hover:bg-green-300" (click)="confirmUpdate()">confirm</button>
 </div>
