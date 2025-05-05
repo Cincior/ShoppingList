@@ -44,6 +44,13 @@ export class ItemListComponent {
     this.receivedData = this.receivedData.filter(item => item.id != deletedId);
   }
 
+  handleItemUpdated(item: Item) {
+    const index = this.receivedData.findIndex(i => i.id === item.id);
+    if(index !== -1) {
+      this.receivedData[index] = item;
+    }
+  }
+
   ngOnDestroy(): void {
     if (this.newItemsSubscription) {
       this.newItemsSubscription.unsubscribe();  // Czyszczenie subskrypcji

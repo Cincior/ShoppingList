@@ -7,7 +7,7 @@ import { Item } from './Item';
   providedIn: 'root'
 })
 export class ServerService {
-  private apiUrl = 'http://localhost:777/api/posts';
+  private apiUrl = 'http://localhost:777/api/items';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
 
   constructor(private http: HttpClient) { }
