@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Item } from '../Item';
+import { Item } from '../../interface/Item';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, last, Subscription } from 'rxjs';
 import { ItemComponent } from "../item/item.component";
-import { ServerService } from '../server.service';
-import { ItemsService } from '../items.service';
+import { ServerService } from '../../services/server.service';
+import { ItemsService } from '../../services/items.service';
 
 @Component({
   selector: 'app-item-list',
@@ -16,6 +16,9 @@ export class ItemListComponent {
   isLoading: number = 0; // 0 -loading 1 - loaded, -1 - error
   receivedData: Item[] = [];
   newItemsSubscription!: Subscription;
+
+  //handling focus order
+  focusedComponents = new Map<number, ItemComponent>;
 
   constructor(private serverService: ServerService, private itemsService: ItemsService) {}
 
@@ -51,10 +54,32 @@ export class ItemListComponent {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.newItemsSubscription) {
-      this.newItemsSubscription.unsubscribe();  // Czyszczenie subskrypcji
+  handleItemFocuse($event: ItemComponent) {
+    console.log("par: " + $event.isEditing)
+    if(!$event.isEditing) {
+      this.focusedComponents.delete($event.item.id);
+      const lastKey = Array.from(this.focusedComponents.keys())[this.focusedComponents.size - 1];
+      //this.focusedComponents.get(lastKey)?.itemNameInput.nativeElement.focus();
+    } else {
+      this.focusedComponents.set($event.item.id, $event);
+      //$event.itemNameInput.nativeElement.focus();
     }
   }
+
+  ngOnDestroy(): void {
+    if (this.newItemsSubscription) {
+      this.newItemsSubscription.unsubscribe();  // Clear subscription
+    }
+  }
+
+  ngAfterViewChecked() {
+    // Enabel focus on recently clicked item
+    const lastKey = Array.from(this.focusedComponents.keys())[this.focusedComponents.size - 1];
+    if(lastKey != null) {
+      console.log('lastkey: ' + lastKey);
+      this.focusedComponents.get(lastKey)?.itemNameInput.nativeElement.focus();
+    }
+  }
+  
 
 }

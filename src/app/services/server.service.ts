@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Item } from './Item';
+import { Item } from '../interface/Item';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class ServerService {
   }
 
   addItem(item: Item) {
-    return this.http.post(this.apiUrl, item, {headers: this.headers});
+    return this.http.post<Item>(this.apiUrl, item, {headers: this.headers});
   }
 
   deleteItem(item: Item) {

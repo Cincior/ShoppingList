@@ -1,7 +1,7 @@
 <h2 class="text-center text-4xl font-bold">Lista</h2>
 <div *ngIf="isLoading == 1">
     <div *ngFor="let item of receivedData">
-        <app-item [item]="item" (itemDeleted)="handleItemDeleted($event)" (itemUpdated)="handleItemUpdated($event)"></app-item>
+        <app-item [item]="item" (itemDeleted)="handleItemDeleted($event)" (itemUpdated)="handleItemUpdated($event)" (itemFocuse)="handleItemFocuse($event)"></app-item>
     </div>
 </div>
 

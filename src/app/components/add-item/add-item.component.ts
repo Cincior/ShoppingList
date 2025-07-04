@@ -1,9 +1,9 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms'
-import { Item } from '../Item';
-import { ServerService } from '../server.service';
-import { ItemsService } from '../items.service';
+import { Item } from '../../interface/Item';
+import { ServerService } from '../../services/server.service';
+import { ItemsService } from '../../services/items.service';
 
 @Component({
   selector: 'app-add-item',
@@ -39,16 +39,16 @@ export class AddItemComponent {
       itemName: this.addItemForm.value.itemName ?? '',
       itemQuantity: this.addItemForm.value.itemQuantity ?? -1 
       }
-      this.serverService.addItem(item).subscribe({
-        next: res => {
-          console.log('Dodano:', res);
-          item.id = (res as any).id;
-          this.itemsService.notifyNewItem(item);
-        },
-        error: err => {
-          console.error('Błąd:', err);
-        }
-      });
+    this.serverService.addItem(item).subscribe({
+      next: res => {
+        console.log('Dodano:', res);
+        item.id = res.id;
+        this.itemsService.notifyNewItem(item);
+      },
+      error: err => {
+        console.error('Błąd:', err);
+      }
+    });
 
     this.addItemForm.reset({
       itemName: '',
