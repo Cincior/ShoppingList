@@ -16,6 +16,7 @@ export class ItemListComponent {
   isLoading: number = 0; // 0 -loading 1 - loaded, -1 - error
   receivedData: Item[] = [];
   newItemsSubscription!: Subscription;
+  clearClicked = false;
 
   //handling focus order
   focusedComponents = new Map<number, ItemComponent>;
@@ -56,6 +57,19 @@ export class ItemListComponent {
     })
   }
 
+  confirmClear() {
+    this.deleteAllItems();
+    this.clearClicked = false;
+  }
+
+  cancelClear() {
+    this.clearClicked = false;
+  }
+
+  clearItems() {
+    this.clearClicked = true;
+  }
+
   handleItemDeleted(deletedId: number) {
     this.receivedData = this.receivedData.filter(item => item.id != deletedId);
   }
@@ -72,6 +86,7 @@ export class ItemListComponent {
     if(!$event.isEditing) {
       this.focusedComponents.delete($event.item.id);
       const lastKey = Array.from(this.focusedComponents.keys())[this.focusedComponents.size - 1];
+      this.focusedComponents.get(lastKey)?.iUpdate.itemNameInput.nativeElement.focus();
     } else {
       this.focusedComponents.set($event.item.id, $event);
     }
@@ -84,12 +99,12 @@ export class ItemListComponent {
   }
 
   ngAfterViewChecked() {
-    // Enabel focus on recently clicked item
-    const lastKey = Array.from(this.focusedComponents.keys())[this.focusedComponents.size - 1];
-    if(lastKey != null) {
-      console.log('lastkey: ' + lastKey);
-      this.focusedComponents.get(lastKey)?.itemNameInput.nativeElement.focus();
-    }
+    // // Enabel focus on recently clicked item
+    // const lastKey = Array.from(this.focusedComponents.keys())[this.focusedComponents.size - 1];
+    // if(lastKey != null) {
+    //   console.log('lastkey: ' + lastKey);
+    //   this.focusedComponents.get(lastKey)?.itemNameInput.nativeElement.focus();
+    // }
   }
   
 

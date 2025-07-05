@@ -1,7 +1,7 @@
 <h2 class="text-center text-4xl font-bold">List</h2>
 <div *ngIf="isLoading == 1" class="flex flex-col">
     <div class="flex justify-end">
-        <button (click)="deleteAllItems()" class="pe-4 font-bold text-red-400 hover:underline hover:cursor-pointer" *ngIf="this.receivedData.length > 0">Clear</button>
+        <button (click)="clearItems()" class="pe-4 font-bold text-red-400 hover:underline hover:cursor-pointer" *ngIf="this.receivedData.length > 0">Clear</button>
     </div>
     <div *ngFor="let item of receivedData">
         <app-item [item]="item" (itemDeleted)="handleItemDeleted($event)" (itemUpdated)="handleItemUpdated($event)" (itemFocuse)="handleItemFocuse($event)"></app-item>
@@ -18,3 +18,13 @@
 </div>
 
 <div *ngIf="this.receivedData.length == 0">No items! Take care of yourself and buy something nutritious!</div>
+
+<div *ngIf="clearClicked" class="fixed inset-0 w-full h-full flex justify-center items-center bg-orange-200/50 z-50">
+    <div>
+        <h1 class="py-3 text-center text-3xl">Are you sure?</h1>
+        <div class="flex justify-around space-x-5">
+            <button (click)="confirmClear()" class="bg-green-400 hover:bg-green-300 hover:cursor-pointer w-24 text-2xl">Yes</button>
+            <button (click)="cancelClear()" class="bg-red-400 hover:bg-red-300 hover:cursor-pointer w-24 text-2xl">No</button>
+        </div>    
+    </div>
+</div>

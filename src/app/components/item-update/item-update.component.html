@@ -1,0 +1,15 @@
+<div class="flex text-3xl grow space-x-3 items-center ">
+            <input 
+                #itemNameInput
+                [style.width.ch]="itemUpd.itemName.length > 1 ? itemUpd.itemName.length : 2"
+                type="text" 
+                [(ngModel)]="itemUpd.itemName"
+                (keydown.enter)="confirmUpdate()"
+                class="">
+            <input 
+                #itemQuantityInput 
+                [style.width.ch]="3"
+                type="number" 
+                [(ngModel)]="itemUpd.itemQuantity"
+                (keydown.enter)="confirmUpdate()">
+        </div>
