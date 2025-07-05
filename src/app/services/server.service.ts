@@ -26,6 +26,10 @@ export class ServerService {
     });
   }
 
+  deleteAllItems() {
+    return this.http.delete(this.apiUrl, {headers: this.headers})
+  }
+
   updateItem(item: Item) {
     return this.http.put(this.apiUrl, item, {headers: this.headers});
   }

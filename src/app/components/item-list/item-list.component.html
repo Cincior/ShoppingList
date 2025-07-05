@@ -1,5 +1,8 @@
-<h2 class="text-center text-4xl font-bold">Lista</h2>
-<div *ngIf="isLoading == 1">
+<h2 class="text-center text-4xl font-bold">List</h2>
+<div *ngIf="isLoading == 1" class="flex flex-col">
+    <div class="flex justify-end">
+        <button (click)="deleteAllItems()" class="pe-4 font-bold text-red-400 hover:underline hover:cursor-pointer" *ngIf="this.receivedData.length > 0">Clear</button>
+    </div>
     <div *ngFor="let item of receivedData">
         <app-item [item]="item" (itemDeleted)="handleItemDeleted($event)" (itemUpdated)="handleItemUpdated($event)" (itemFocuse)="handleItemFocuse($event)"></app-item>
     </div>
@@ -13,3 +16,5 @@
 <div *ngIf="isLoading == -1">
     Failed to load products
 </div>
+
+<div *ngIf="this.receivedData.length == 0">No items! Take care of yourself and buy something nutritious!</div>

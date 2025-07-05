@@ -43,6 +43,19 @@ export class ItemListComponent {
       }
   })
   }
+
+  deleteAllItems() {
+    this.serverService.deleteAllItems().subscribe({
+      next: () => {
+        this.focusedComponents.clear();
+        this.receivedData = [];
+      }, 
+      error: () => {
+        alert("Failed to delete all items")
+      }
+    })
+  }
+
   handleItemDeleted(deletedId: number) {
     this.receivedData = this.receivedData.filter(item => item.id != deletedId);
   }
@@ -59,10 +72,8 @@ export class ItemListComponent {
     if(!$event.isEditing) {
       this.focusedComponents.delete($event.item.id);
       const lastKey = Array.from(this.focusedComponents.keys())[this.focusedComponents.size - 1];
-      //this.focusedComponents.get(lastKey)?.itemNameInput.nativeElement.focus();
     } else {
       this.focusedComponents.set($event.item.id, $event);
-      //$event.itemNameInput.nativeElement.focus();
     }
   }
 
