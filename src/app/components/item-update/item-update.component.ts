@@ -17,11 +17,33 @@ export class ItemUpdateComponent {
 
   }
 
+  ngOnInit() {
+    
+  }
+
   confirmUpdate() {
     this.updated.emit(this)
   }
 
+  amountOfDigits(number: number) {
+    let amount = 1;
+    while(number > 9) {
+      number = Math.floor(number / 10);
+      amount++;
+    }
+    return amount
+  }
+
+  resizeTextArea(textarea: HTMLTextAreaElement) {
+    textarea.style.height = '0px';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
   ngAfterViewInit() {
     this.itemNameInput.nativeElement.focus();
+  }
+
+   ngAfterViewChecked() {
+    this.resizeTextArea(this.itemNameInput.nativeElement)
   }
 }
